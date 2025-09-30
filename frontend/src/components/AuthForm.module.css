@@ -1,0 +1,32 @@
+.card {
+  background: white;
+  padding: 18px;
+  border-radius: 12px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 420px;
+  color: black;
+}
+
+.input {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #94a5a7;
+  background: #e7edee;
+  color: #6a7b7c;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+}
+
+.smallMuted {
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.677);
+}
