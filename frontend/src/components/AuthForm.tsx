@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import Button from "./Button";
+import Button from "./menu/Button";
 import styles from "./AuthForm.module.css";
 
 type AuthFormProps = {
