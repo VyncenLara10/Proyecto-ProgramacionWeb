@@ -8,15 +8,17 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   const items = [
-    { href: "/", label: "Home" },
-    { href: "/dashboard", label: "Dashboard" },
+    { href: "/home", label: "Home" },
     { href: "/portfolio", label: "Portfolio" },
-    { href: "/reports", label: "Reports" },
-    { href: "/settings", label: "Settings" },
+    { href: "/transferir", label: "Transferir" },
+    { href: "/invitar", label: "Invitar" },
+    { href: "/buscar", label: "Buscar" },
   ];
 
   return (
+    
     <aside className={styles.sidebar}>
+      <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet"></link>
       <div className={styles.header}>
         <h3 className={styles.title}>InvestCorp</h3>
         <div className={styles.subtitle}>Fictional exchange firm</div>
@@ -24,6 +26,7 @@ export default function Sidebar() {
 
       <nav className={styles.nav}>
         {items.map((i) => (
+          
           <Link key={i.href} href={i.href} legacyBehavior>
             <a
               className={`${styles.link} ${
