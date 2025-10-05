@@ -17,7 +17,7 @@ export default function TransactionPage() {
 
           <div
             className={styles.card}
-            onClick={() => router.push("/transaction/to-bank")}
+            onClick={() => router.push("/transaction/to-bank/phase1")}
           >
             <h2>Transferir a tu Banco</h2>
             <p>Transfiere fondos desde tu cuenta Bancaria hacia Hapi</p>
