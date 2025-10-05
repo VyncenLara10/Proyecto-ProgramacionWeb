@@ -1,0 +1,36 @@
+APP: usuarios
+
+Esta app gestiona todo lo relacionado con la administración de los usuarios del sistema.
+Maneja los roles, el registro y autenticación, el estado de habilitación o deshabilitación,
+y el sistema de referidos entre usuarios. También gestiona la autenticación segura mediante JWT.
+
+FUNCIONALIDAD PRINCIPAL:
+- Crear nuevos usuarios (por defecto deshabilitados).
+- Asignar automáticamente el rol “USUARIO” al registrarse.
+- Permitir que el administrador habilite o deshabilite usuarios.
+- Manejar los roles: ADMIN y USUARIO.
+- Controlar el campo “estado” (habilitado o no) para determinar si puede operar.
+- Gestionar el sistema de referidos: quién invitó a quién, monto de bono y estado del bono.
+- Implementar autenticación y autorización con JWT:
+  - Generar tokens de acceso y refresh para cada sesión.
+  - Verificar identidad en cada solicitud protegida.
+  - Expirar tokens automáticamente para mayor seguridad.
+- Enviar correos automáticos:
+  - Al registrarse: “Cuenta creada, pendiente de habilitación”.
+  - Al ser habilitado: “Tu cuenta ha sido activada”.
+- Registrar toda la actividad en la bitácora (auditoría) para cumplir con el no repudio.
+
+MODELOS PRINCIPALES:
+- Rol → Define el tipo de usuario y sus permisos.
+- Usuario → Contiene la información personal, estado, rol y referencia al referido.
+- Referido → Registra las invitaciones, bonos y su estado.
+
+JWT:
+- Los tokens JWT se emiten al iniciar sesión.
+- Cada endpoint protegido requiere un token válido en la cabecera `Authorization: Bearer <token>`.
+- Los tokens permiten identificar de forma segura quién realiza cada acción (clave para el no repudio).
+
+NO REPUDIO:
+- Toda acción se registra en la bitácora (registro, habilitación, inicio/cierre de sesión).
+- Todos los correos enviados quedan en el log de correos (tipo, asunto, estado).
+- Los tokens JWT validan la identidad del usuario que ejecuta cualquier operación.

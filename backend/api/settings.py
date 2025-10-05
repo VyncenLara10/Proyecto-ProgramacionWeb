@@ -33,12 +33,12 @@ INSTALLED_APPS = [
     'rest_framework',
     "corsheaders",
     "drf_yasg",
-    'common',
-    'stocks',
-    'trading',
-    'payments',
-    'reports',
-    'audit',
+    'rest_framework_simplejwt.token_blacklist',
+    'usuarios',
+    'acciones',
+    'portafolio',
+    'reportes',
+    'auditoria',
 ]
 
 MIDDLEWARE = [
@@ -129,8 +129,6 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-AUTH_USER_MODEL = 'accounts.User'
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [

@@ -1,0 +1,32 @@
+APP: portafolio
+
+Esta app controla las operaciones financieras del usuario habilitado: compra, venta, saldos y portafolio general.
+Maneja toda la información de la cuenta virtual del usuario y mantiene un historial completo de transacciones.
+Todas las operaciones requieren autenticación con JWT.
+
+FUNCIONALIDAD PRINCIPAL:
+- Crear una cuenta virtual para cada usuario habilitado.
+- Registrar todas las transacciones de compra y venta de acciones.
+- Actualizar automáticamente los saldos (disponible, pendiente, total).
+- Mantener un historial completo de compras, ventas y movimientos.
+- Permitir la consulta del portafolio actual (acciones poseídas, cantidad, valor total).
+- Enviar correos automáticos al confirmar compras, ventas o movimientos.
+- Validar con JWT:
+  - Que el usuario autenticado sea el propietario de la cuenta o transacción.
+  - Que los tokens sean válidos antes de realizar operaciones financieras.
+- Registrar toda la actividad en la bitácora para trazabilidad.
+
+MODELOS PRINCIPALES:
+- Cuenta → Representa el saldo virtual del usuario (disponible, pendiente, activos).
+- TransaccionPortafolio → Registra cada operación (acción, tipo, cantidad, precio, total).
+
+JWT:
+- Cada compra o venta requiere un token JWT válido.
+- El token identifica al usuario que realiza la transacción.
+- Se usa la información del token (user_id, exp, iat) para auditoría y validación.
+
+NO REPUDIO:
+- Cada operación se registra con usuario, IP, user agent, fecha y hora.
+- Los tokens JWT garantizan la identidad del usuario que ejecuta la transacción.
+- Los correos de confirmación de compra o venta se documentan en el log de correos.
+- El historial de transacciones sirve como evidencia completa para reportes o auditorías.
