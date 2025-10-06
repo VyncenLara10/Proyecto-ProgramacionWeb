@@ -1,13 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";  // 👈 importa el router
+import { useRouter } from "next/navigation";  //  importa el router
 import StepIndicator from "@/components/transaction/StepIndicator";
 import styles from "./TransactionFormBase.module.css";
 
 type TransactionFormBaseProps = {
   title: string;
-  mode: "deposit" | "withdraw";          // 👈 nueva prop
+  mode: "deposit" | "withdraw";          //  nueva prop
   onSubmit?: (data: FormData) => void;   // la hago opcional si solo quieres navegar
 };
 
@@ -26,7 +26,7 @@ export default function TransactionFormBase({
   const [method, setMethod] = useState("");
   const [cui, setCui] = useState("");
 
-  const router = useRouter(); // 👈
+  const router = useRouter(); // 
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,7 +34,7 @@ export default function TransactionFormBase({
     // Si quieres seguir ejecutando alguna lógica que envíe datos:
     onSubmit?.({ country, method, cui });
 
-    // 👇 Redirige a la siguiente fase según el modo
+    //  Redirige a la siguiente fase según el modo
     if (mode === "deposit") {
       router.push("/transaction/to-bank/phase2");
     } else {
@@ -88,7 +88,6 @@ export default function TransactionFormBase({
         Continuar
       </button>
 
-      <StepIndicator total={3} current={1} />
     </form>
   );
 }

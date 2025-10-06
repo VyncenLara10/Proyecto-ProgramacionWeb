@@ -1,0 +1,11 @@
+.detailsTitle {
+  font-weight: bold;     /* Negrita */
+  margin-bottom: 0.5rem; /* Espacio con la lista */
+  font-size: 1.1rem;     /* Opcional */
+}
+
+.detailsList {
+  list-style: disc;      /* Hace que aparezcan los puntos */
+  padding-left: 1.5rem;  /* Sangría para que se vean bien los bullets */
+  margin: 0;
+}
