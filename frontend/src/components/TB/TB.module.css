@@ -57,6 +57,26 @@
     z-index: 100;
 }
 
+.searchBigBox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    margin: auto;
+    margin-top: 15px;
+    max-width: 1000px;
+    color: #94a5a7;
+}
+
+.searchBigBox input {
+    flex: 1;
+    padding: 20px 14px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    outline: none;
+    background-color: #e7edee;
+    color: black;
+}
 .nav {
   display: flex;
   flex-direction: column;

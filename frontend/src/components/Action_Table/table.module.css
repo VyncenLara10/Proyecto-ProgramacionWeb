@@ -1,0 +1,44 @@
+.tableContainer {
+  overflow-x: auto;
+  background: #e4e4e4;
+  border-radius: 10px;
+  margin: auto;
+  margin-top: 10px;
+  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.1);
+  width: 85%;
+  display: flex;
+  justify-content: center;
+
+}
+
+.tables {
+  width: 85%;
+  border-collapse: collapse;
+  min-width: 700px;
+
+}
+
+.tables td, 
+.tables th {
+  vertical-align: middle;
+  border-bottom: 2px solid #94a5a7; 
+  padding: 10px 35px; 
+  text-align: center;
+  
+  
+}
+
+.simboloimg{
+  display: flex;       
+  align-items: center;
+  justify-content: center; 
+  gap: 5px;
+
+  padding: 10px 35px;            
+}
+
+
+
+
+
+

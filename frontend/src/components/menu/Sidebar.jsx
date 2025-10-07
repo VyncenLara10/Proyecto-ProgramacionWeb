@@ -12,7 +12,7 @@ export default function Sidebar() {
     { href: "/portfolio", label: "Portfolio" },
     { href: "/transferir", label: "Transferir" },
     { href: "/invitar", label: "Invitar" },
-    { href: "/buscar", label: "Buscar" },
+    { href: "/search", label: "Buscar" },
   ];
 
   return (
