@@ -1,0 +1,148 @@
+.container{
+    display: flex;
+    flex-direction: row;
+    margin: auto;
+    width: 85%;
+    height: 65%;
+    
+  
+    
+}
+
+.informacion{
+    border: 2px solid #e7edee;
+    border-bottom: 4px solid #e7edee;
+    width: 60%;
+}
+
+.datos{
+    display:flex;
+    flex-direction: row;
+    
+
+ 
+}
+
+.dato{
+    display: flex;
+    border: 2px solid #e7edee;
+    justify-content: center;
+    flex-direction: column;
+    height: 100px;
+    width: 33.33%;
+
+    align-items: center;
+}
+
+.containergraf{
+    display: flex;
+    height: 300px;
+    width: 100%;
+    border: 2px solid #e7edee;
+    border-bottom: 0px;
+}
+
+.containerb{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+    width: 100%;
+    flex-direction: row;
+    height: 30px;
+}
+
+.bbton{
+    background-color: #ffffff;
+    width: 50px;
+    border-radius: 15px;
+    font-weight: bold;
+    font-size: 70%;
+    height: 100%;
+    border: solid 3px #1a1f36;
+}
+
+.bbtonclick{
+    background-color: #1a1f36;
+    width: 50px;
+    border-radius: 15px;
+    font-weight: bold;
+    font-size: 70%;
+    height: 100%;
+    color: #ffffff;
+}
+
+
+.containercard{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40%;
+    height: 100%;
+}
+
+.card {
+
+  border: 3px solid #e5e8ec;
+  border-radius: 16px;
+  padding: 1.2rem;
+  width: 100%;
+  height: 80%;
+  max-width: 320px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.tabs {
+  display: flex;
+  justify-content: space-around;
+  border-bottom: 1px solid #e5e8ec;
+  margin-bottom: 1rem;
+}
+
+.tab {
+  flex: 1;
+  padding: 0.5rem 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  color: #7a8a9d;
+  transition: color 0.2s;
+}
+
+.tab.active {
+  color: #2b2d42;
+  font-weight: 600;
+  border-bottom: 2px solid #2b2d42;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.form label {
+  font-size: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  color: #444;
+}
+
+.form input {
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid #ccd1d9;
+  margin-top: 0.2rem;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 480px) {
+  .card {
+    width: 90%;
+    padding: 1rem;
+  }
+}
