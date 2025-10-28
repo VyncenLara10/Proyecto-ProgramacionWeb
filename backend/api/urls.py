@@ -30,5 +30,7 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
     # Rutas de la app
-    path('api/', include('acciones.urls')),
+    path('api/users/', include('users.urls'))
+    #path("api/auth/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),  cuando ya se use JWT
+    #path("api/auth/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
 ]
