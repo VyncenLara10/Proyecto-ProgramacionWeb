@@ -33,12 +33,22 @@ INSTALLED_APPS = [
     'rest_framework',
     "corsheaders",
     "drf_yasg",
+<<<<<<< HEAD
+    'rest_framework_simplejwt.token_blacklist',
+    'usuarios',
+    'acciones',
+    'portafolio',
+    'reportes',
+    'auditoria',
+=======
     'common',
     'stocks',
     'trading',
     'payments',
     'reports',
     'audit',
+    'users'
+>>>>>>> feat/users-app
 ]
 
 MIDDLEWARE = [
@@ -130,15 +140,15 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = 'accounts.User'
+AUTH_USER_MODEL = 'users.User'
 
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
-    ],
-    "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.IsAuthenticated",
-    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.AllowAny',
+    ),
 }
 
 CORS_ALLOWED_ORIGINS = [

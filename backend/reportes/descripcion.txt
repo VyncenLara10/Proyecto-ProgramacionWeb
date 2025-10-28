@@ -1,0 +1,31 @@
+APP: reportes
+
+Esta app maneja la solicitud, generación y envío de reportes personalizados para los usuarios.
+Permite obtener información resumida y detallada de las transacciones, portafolio y referidos.
+Todas las solicitudes y descargas de reportes requieren autenticación JWT.
+
+FUNCIONALIDAD PRINCIPAL:
+- Registrar las solicitudes de reportes por usuario autenticado.
+- Generar archivos (PDF, Excel o CSV) según el tipo de reporte solicitado.
+- Permitir reportes de:
+  - Compras y ventas.
+  - Movimientos de cuenta o transferencias simuladas.
+  - Bonos de referidos.
+  - Portafolio general.
+- Guardar la ruta del archivo generado y su estado (pendiente, generado, enviado).
+- Enviar los reportes por correo y registrar el envío.
+- Validar con JWT que solo el usuario autenticado pueda solicitar o descargar su propio reporte.
+- Registrar todas las solicitudes y envíos en la bitácora.
+
+MODELO PRINCIPAL:
+- Reporte → Contiene tipo de reporte, rango de fechas, ruta del archivo, estado y fecha de creación.
+
+JWT:
+- Cada solicitud de reporte se asocia al `user_id` del token JWT.
+- Solo los usuarios autenticados pueden generar o recibir reportes.
+- Los tokens se incluyen en la bitácora como evidencia del usuario solicitante.
+
+NO REPUDIO:
+- Cada solicitud de reporte se registra en la bitácora (usuario, tipo, rango, fecha).
+- Cada correo enviado con el reporte queda en el log (tipo, estado, error si lo hay).
+- JWT permite verificar qué usuario solicitó y descargó cada reporte.

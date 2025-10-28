@@ -1,0 +1,27 @@
+APP: acciones
+
+Esta app administra la información de las acciones financieras obtenidas desde la API de Yahoo Finance.
+Controla qué acciones están habilitadas para los usuarios y mantiene un historial de precios actualizado.
+
+FUNCIONALIDAD PRINCIPAL:
+- Conectarse con la API de Yahoo Finance para importar o actualizar acciones.
+- Registrar y actualizar nombre, símbolo, categoría y precio actual.
+- Permitir al administrador habilitar o deshabilitar acciones para mostrarlas a los usuarios.
+- Guardar el historial de precios diarios o periódicos de cada acción.
+- Permitir a los usuarios listar, buscar y filtrar acciones habilitadas.
+- Proteger las operaciones de modificación con JWT:
+  - Solo los administradores autenticados pueden crear, editar o deshabilitar acciones.
+- Registrar en la bitácora las actualizaciones, altas o bajas de acciones.
+
+MODELOS PRINCIPALES:
+- Accion → Contiene la información base de cada acción (nombre, símbolo, precio, estado, proveedor).
+- PrecioHistorico → Guarda el historial de precios asociados a cada acción y fecha.
+
+JWT:
+- Solo usuarios con token JWT válido pueden consultar o modificar información de acciones.
+- Los endpoints públicos (solo lectura) permiten ver acciones habilitadas sin autenticación.
+
+NO REPUDIO:
+- Cada cambio (habilitación, deshabilitación, actualización de precios) se registra en la bitácora.
+- Los tokens JWT permiten identificar al administrador responsable de los cambios.
+- Los datos históricos sirven como evidencia del valor de mercado en una fecha concreta.
