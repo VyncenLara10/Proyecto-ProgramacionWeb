@@ -31,3 +31,30 @@ export interface Stock {
   description?: string;
   logo?: string;
 }
+
+export interface PortfolioItem {
+  stock_id: string;
+  symbol: string;
+  name: string;
+  quantity: number;
+  avg_price: number;
+  current_price: number;
+  total_value: number;
+  profit_loss: number;
+  profit_loss_percent: number;
+}
+
+export interface Transaction {
+  id: string;
+  user_id: string;
+  type: 'buy' | 'sell' | 'deposit' | 'withdrawal';
+  stock_id?: string;
+  stock_symbol?: string;
+  quantity?: number;
+  price?: number;
+  total: number;
+  fee?: number;
+  status: 'completed' | 'pending' | 'failed';
+  created_at: string;
+  updated_at?: string;
+}
