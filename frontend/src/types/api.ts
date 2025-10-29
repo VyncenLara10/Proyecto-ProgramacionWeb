@@ -194,3 +194,38 @@ export const SIDEBAR_NAVIGATION = [
     icon: 'Star'
   }
 ] as const;
+
+export const ADMIN_NAVIGATION = [
+  {
+    name: 'Admin Dashboard',
+    href: ROUTES.ADMIN,
+    icon: 'Shield'
+  },
+  {
+    name: 'Usuarios',
+    href: ROUTES.ADMIN_USERS,
+    icon: 'Users'
+  },
+  {
+    name: 'Acciones',
+    href: ROUTES.ADMIN_STOCKS,
+    icon: 'TrendingUp'
+  },
+  {
+    name: 'Transacciones',
+    href: ROUTES.ADMIN_TRANSACTIONS,
+    icon: 'Receipt'
+  }
+] as const;
+
+// ============================================
+// CONFIGURACIÓN DE GRÁFICOS
+// ============================================
+
+export const CHART_COLORS = {
+  PRIMARY: '#00d4ff',
+  SUCCESS: '#10b981',
+  DANGER: '#ef4444',
+  WARNING: '#f59e0b',
+  INFO: '#3b82f6'
+} as const;
