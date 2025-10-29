@@ -58,3 +58,56 @@ export interface Transaction {
   created_at: string;
   updated_at?: string;
 }
+
+export interface Referral {
+  id: string;
+  referrer_id: string;
+  referred_user_id: string;
+  name: string;
+  email: string;
+  status: 'active' | 'inactive';
+  earnings: number;
+  created_at: string;
+}
+
+export interface Watchlist {
+  id: string;
+  user_id: string;
+  stock_id: string;
+  symbol: string;
+  name: string;
+  current_price: number;
+  added_at: string;
+}
+
+export interface Notification {
+  id: string;
+  user_id: string;
+  type: 'info' | 'warning' | 'success' | 'error';
+  title: string;
+  message: string;
+  read: boolean;
+  created_at: string;
+}
+
+export interface DashboardStats {
+  balance: number;
+  portfolio_value: number;
+  total_invested: number;
+  total_profit: number;
+  total_profit_percent: number;
+  recent_transactions: Transaction[];
+}
+
+export interface AdminStats {
+  total_users: number;
+  active_users: number;
+  new_users_this_month: number;
+  total_volume: number;
+  volume_growth: number;
+  total_revenue: number;
+  total_transactions: number;
+  transactions_today: number;
+  recent_users: User[];
+  recent_transactions: Transaction[];
+}
