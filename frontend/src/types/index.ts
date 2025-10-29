@@ -111,3 +111,30 @@ export interface AdminStats {
   recent_users: User[];
   recent_transactions: Transaction[];
 }
+
+export interface ChartDataPoint {
+  date: string;
+  value: number;
+  label?: string;
+}
+
+export interface ApiResponse<T> {
+  success: boolean;
+  data?: T;
+  message?: string;
+  error?: string;
+}
+
+export interface PaginationParams {
+  limit?: number;
+  offset?: number;
+  page?: number;
+}
+
+export interface FilterParams {
+  search?: string;
+  sort_by?: string;
+  order?: 'asc' | 'desc';
+  date_from?: string;
+  date_to?: string;
+}
