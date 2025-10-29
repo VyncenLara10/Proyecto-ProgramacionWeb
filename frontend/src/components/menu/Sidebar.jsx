@@ -10,7 +10,7 @@ export default function Sidebar() {
   const items = [
     { href: "/home", label: "Home" },
     { href: "/portfolio", label: "Portfolio" },
-    { href: "/transferir", label: "Transferir" },
+    { href: "/transaction", label: "Transferir" },
     { href: "/invitar", label: "Invitar" },
     { href: "/buscar", label: "Buscar" },
   ];

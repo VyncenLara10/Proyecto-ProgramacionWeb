@@ -1,0 +1,59 @@
+.container_main {
+  padding: 3rem 0 5rem 0;
+  height: 100%;
+}
+
+.container {
+  display: flex;
+  height: 100%;
+  gap: 3rem; /* Espacio entre columnas */
+  margin: 0 auto; /* Centrar horizontalmente */
+  padding: 2rem 3rem;
+  border: 1px solid #b2d0cc;
+  max-width: 1200px; /* Controlar ancho total */
+} 
+
+.left {
+  flex: 2;
+}
+
+.input_container_main{
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-evenly;
+  gap: 1rem;
+}
+
+.input_container{
+  display: flex;
+  gap: 3rem;
+}
+
+
+.right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Contenido arriba */
+  gap: 1rem;
+  border: 1px solid #b2d0cc;
+  border-radius: 8px;
+  padding: 2rem;
+}
+
+.card {
+  margin-bottom: 3rem;
+  padding: 10px;
+}
+
+.button {
+  background: #1e1b4b;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  padding: 0.8rem;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-top: auto; /* Mantenerlo al fondo si hay espacio */
+}
