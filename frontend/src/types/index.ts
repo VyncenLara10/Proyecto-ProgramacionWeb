@@ -138,3 +138,8 @@ export interface FilterParams {
   date_from?: string;
   date_to?: string;
 }
+
+export type UserRole = 'user' | 'admin';
+export type TransactionType = 'buy' | 'sell' | 'deposit' | 'withdrawal';
+export type TransactionStatus = 'completed' | 'pending' | 'failed';
+export type NotificationType = 'info' | 'warning' | 'success' | 'error';
