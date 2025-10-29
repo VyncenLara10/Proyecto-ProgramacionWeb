@@ -146,3 +146,51 @@ export const ROUTES = {
   ADMIN_STOCKS: '/admin/stocks',
   ADMIN_TRANSACTIONS: '/admin/transactions'
 } as const;
+
+
+// ============================================
+// NAVEGACIÓN DEL SIDEBAR
+// ============================================
+
+export const SIDEBAR_NAVIGATION = [
+  {
+    name: 'Dashboard',
+    href: ROUTES.DASHBOARD,
+    icon: 'LayoutDashboard'
+  },
+  {
+    name: 'Mercado',
+    href: ROUTES.MARKET,
+    icon: 'TrendingUp'
+  },
+  {
+    name: 'Mi Portafolio',
+    href: ROUTES.PORTFOLIO,
+    icon: 'Briefcase'
+  },
+  {
+    name: 'Operar',
+    href: ROUTES.TRADE,
+    icon: 'ArrowLeftRight'
+  },
+  {
+    name: 'Billetera',
+    href: ROUTES.WALLET,
+    icon: 'Wallet'
+  },
+  {
+    name: 'Transacciones',
+    href: ROUTES.TRANSACTIONS,
+    icon: 'Receipt'
+  },
+  {
+    name: 'Reportes',
+    href: ROUTES.REPORTS,
+    icon: 'FileText'
+  },
+  {
+    name: 'Watchlist',
+    href: ROUTES.WATCHLIST,
+    icon: 'Star'
+  }
+] as const;
