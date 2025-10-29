@@ -1,0 +1,16 @@
+# Archivos de Windows
+*.Identifier
+Thumbs.db
+Desktop.ini
+
+# Archivos de entorno
+.env
+.env.local
+.env.production
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
