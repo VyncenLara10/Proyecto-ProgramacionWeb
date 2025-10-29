@@ -42,3 +42,5 @@ class DashboardRecentActivityView(APIView):
         return Response({
             "transactions": TransactionSerializer(recent_transactions, many=True).data
         })
+
+        
