@@ -233,3 +233,68 @@ export const CHART_COLORS = {
 // FORMATO DE NÚMEROS Y FECHAS
 // ============================================
 
+export const NUMBER_FORMAT = {
+  CURRENCY: {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  },
+  PERCENT: {
+    style: 'percent',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  },
+  DECIMAL: {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }
+} as const;
+
+export const DATE_FORMAT = {
+  SHORT: 'dd/MM/yyyy',
+  LONG: 'dd MMMM yyyy',
+  WITH_TIME: 'dd/MM/yyyy HH:mm',
+  TIME_ONLY: 'HH:mm'
+} as const;
+
+// ============================================
+// SOCIAL LINKS
+// ============================================
+
+export const SOCIAL_LINKS = {
+  TWITTER: 'https://twitter.com/tikalinvest',
+  FACEBOOK: 'https://facebook.com/tikalinvest',
+  INSTAGRAM: 'https://instagram.com/tikalinvest',
+  LINKEDIN: 'https://linkedin.com/company/tikalinvest'
+} as const;
+
+// ============================================
+// CONTACT INFO
+// ============================================
+
+export const CONTACT_INFO = {
+  EMAIL: 'soporte@tikalinvest.com',
+  PHONE: '+502 2222-3333',
+  ADDRESS: 'Zona 10, Ciudad de Guatemala, Guatemala'
+} as const;
+
+// ============================================
+// API CONFIG
+// ============================================
+
+export const API_CONFIG = {
+  TIMEOUT: 10000, // 10 segundos
+  RETRY_ATTEMPTS: 3,
+  RETRY_DELAY: 1000 // 1 segundo
+} as const;
+
+// ============================================
+// PAGINATION
+// ============================================
+
+export const PAGINATION = {
+  DEFAULT_LIMIT: 20,
+  MAX_LIMIT: 100,
+  DEFAULT_PAGE: 1
+} as const;
