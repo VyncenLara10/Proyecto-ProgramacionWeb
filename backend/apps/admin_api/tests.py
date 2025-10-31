@@ -1,1 +1,3 @@
-git commit -m "test(admin_api): add initial tests.py file"
+from django.test import TestCase
+
+# Create your tests here.
