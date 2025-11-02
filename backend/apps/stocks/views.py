@@ -5,13 +5,12 @@ from django.utils import timezone
 from datetime import timedelta
 from .models import Stock, StockHistory
 from .serializers import StockSerializer
-from apps.users.permissions import IsAdminUser
-from TikalInvest.auth import IsAdmin
+from apps.users.permissions import IsAdmin
 
 
 class StockListView(generics.ListAPIView):
     """Lista de acciones"""
-    queryset = Stock.objects.filter(is_active=True)
+    queryset = Stock.objects
     serializer_class = StockSerializer
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['symbol', 'name', 'category', 'sector']
@@ -158,7 +157,7 @@ class StockGainersView(APIView):
 
     def get(self, request):
         limit = int(request.query_params.get('limit', 10))
-        stocks = Stock.objects.filter(is_active=True).order_by('-change_percent')[:limit]
+        stocks = Stock.objects.filter(change_price).order_by('-change_percent')[:limit]
         return Response({
             'gainers': StockSerializer(stocks, many=True).data
         })
@@ -170,7 +169,7 @@ class StockLosersView(APIView):
 
     def get(self, request):
         limit = int(request.query_params.get('limit', 10))
-        stocks = Stock.objects.filter(is_active=True).order_by('change_percent')[:limit]
+        stocks = Stock.objects.filter(current_price).order_by('change_percent')[:limit]
         return Response({
             'losers': StockSerializer(stocks, many=True).data
         })
@@ -182,7 +181,7 @@ class StockTrendingView(APIView):
 
     def get(self, request):
         limit = int(request.query_params.get('limit', 10))
-        stocks = Stock.objects.filter(is_active=True).order_by('-volume')[:limit]
+        stocks = Stock.objects.filter(current_price).order_by('-volume')[:limit]
         return Response({
             'trending': StockSerializer(stocks, many=True).data
         })

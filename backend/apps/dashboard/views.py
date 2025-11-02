@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import permissions, status
 from django.db.models import Sum, Count
-from apps.users.models import User
+from apps.users.models import Profile
 from apps.stocks.models import Stock
 from apps.transactions.models import Transaction
 from apps.transactions.serializers import TransactionSerializer
@@ -14,7 +14,7 @@ class DashboardStatsView(APIView):
         user = request.user
     
         total_stocks = Stock.objects.filter(is_active=True).count()
-        total_users = User.objects.filter(is_active=True).count()
+        total_users = Profile.objects.filter(state=pendiente).count()
         total_transactions = Transaction.objects.filter(user=user).count()
     
         user_transactions = Transaction.objects.filter(user=user, status='completed')

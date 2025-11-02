@@ -1,25 +1,25 @@
 from django.db import models
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
-from apps.users.models import User
+from apps.users.models import Profile
 from apps.stocks.models import Stock
 from rest_framework.views import APIView
 from apps.transactions.models import Transaction
-from TikalInvest.auth import IsAdmin
+from apps.users.permissions import IsAdmin
 from .serializers import UserSerializer, StockSerializer, TransactionSerializer
 
 class AdminUserListView(generics.ListAPIView):
-    queryset = User.objects.all()
+    queryset = Profile.objects.all()
     serializer_class = UserSerializer
     permission_classes = [IsAdmin]
 
 class AdminUserDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = User.objects.all()
+    queryset = Profile.objects.all()
     serializer_class = UserSerializer
     permission_classes = [IsAdmin]
 
 class AdminUserStatusView(generics.UpdateAPIView):
-    queryset = User.objects.all()
+    queryset = Profile.objects.all()
     serializer_class = UserSerializer
     permission_classes = [IsAdmin]
 

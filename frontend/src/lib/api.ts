@@ -1,4 +1,5 @@
 import axios, { AxiosInstance, AxiosError } from 'axios';
+import { getAccessToken } from '@auth0/nextjs-auth0';
 
 // ============================================
 // CONFIGURACIÓN DE LA API
@@ -19,29 +20,19 @@ const api: AxiosInstance = axios.create({
 // ============================================
 
 api.interceptors.request.use(
-  (config) => {
-    const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+  async (config) => {
+    try {
+      // 🔹 Obtiene el access token desde Auth0
+      const accessToken = await getAccessToken();
+      if (accessToken) {
+        config.headers.Authorization = `Bearer ${accessToken}`;
+      }
+    } catch (err) {
+      console.warn('No se pudo obtener el token de Auth0:', err);
     }
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
-
-api.interceptors.response.use(
-  (response) => response,
-  (error: AxiosError) => {
-    if (error.response?.status === 401) {
-      if (typeof window !== 'undefined') {
-        localStorage.removeItem('token');
-        window.location.href = '/api/auth/login';
-      }
-    }
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
 
 // ============================================
@@ -204,29 +195,9 @@ export interface StockCategory {
 // AUTENTICACIÓN
 // ============================================
 
-export const login = async (credentials: LoginCredentials) => {
-  try {
-    const response = await api.post('/auth/login', credentials);
-    return response.data;
-  } catch (error) {
-    console.error('Error en login:', error);
-    throw error;
-  }
-};
-
-export const register = async (data: RegisterData) => {
-  try {
-    const response = await api.post('/auth/register', data);
-    return response.data;
-  } catch (error) {
-    console.error('Error en register:', error);
-    throw error;
-  }
-};
-
 export const getCurrentUser = async () => {
   try {
-    const response = await api.get('/auth/me');
+    const response = await api.get('/users/auth/me');
     return response.data;
   } catch (error) {
     console.error('Error al obtener usuario:', error);
@@ -234,38 +205,6 @@ export const getCurrentUser = async () => {
   }
 };
 
-export const logout = async () => {
-  try {
-    const response = await api.post('/auth/logout');
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem('token');
-    }
-    return response.data;
-  } catch (error) {
-    console.error('Error en logout:', error);
-    throw error;
-  }
-};
-
-export const forgotPassword = async (email: string) => {
-  try {
-    const response = await api.post('/auth/forgot-password', { email });
-    return response.data;
-  } catch (error) {
-    console.error('Error en forgot password:', error);
-    throw error;
-  }
-};
-
-export const resetPassword = async (token: string, password: string) => {
-  try {
-    const response = await api.post('/auth/reset-password', { token, password });
-    return response.data;
-  } catch (error) {
-    console.error('Error en reset password:', error);
-    throw error;
-  }
-};
 
 // ============================================
 // ACCIONES (STOCKS) - COMPLETO

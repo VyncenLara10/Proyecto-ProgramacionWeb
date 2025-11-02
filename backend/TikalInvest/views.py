@@ -4,7 +4,7 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth import get_user_model
 from django.db.models import Sum, Avg, F, Q 
-from TikalInvest.auth import Auth0JWTAuthentication
+from apps.users.auth0_authentication import Auth0JWTAuthentication
 from rest_framework import exceptions
 from apps.transactions.models import Transaction
 from apps.stocks.models import Stock

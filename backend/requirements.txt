@@ -2,6 +2,7 @@ amqp==5.3.1
 asgiref==3.10.0
 billiard==4.2.2
 celery==5.5.3
+sendgrid==6.12.5
 click==8.3.0
 click-didyoumean==0.3.1
 click-plugins==1.1.1.2
@@ -29,6 +30,7 @@ rsa==4.9.1
 six==1.17.0
 sqlparse==0.5.3
 tzdata==2025.2
+drf-spectacular==0.28.0
 uritemplate==4.2.0
 vine==5.1.0
 wcwidth==0.2.14

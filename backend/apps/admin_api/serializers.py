@@ -1,11 +1,11 @@
 from rest_framework import serializers
-from apps.users.models import User
+from apps.users.models import Profile
 from apps.stocks.models import Stock
 from apps.transactions.models import Transaction
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
+        model = Profile
         fields = '__all__'
 
 class StockSerializer(serializers.ModelSerializer):
