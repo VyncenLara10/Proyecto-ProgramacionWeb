@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "corsheaders",
     "drf_yasg",
+    "drf_spectacular",
     "apps.users",
     "apps.stocks",
     "apps.transactions",
@@ -86,7 +87,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'TikalInvest.wsgi.application'
 
-AUTH_USER_MODEL = "users.User"
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -147,19 +147,25 @@ API_IDENTIFIER = os.environ.get("API_IDENTIFIER")
 ALGORITHMS = ["RS256"]
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'TikalInvest.auth.Auth0JWTAuthentication',
-    ),
-    "DEFAULT_PERMISSION_CLASSES": (
-        "rest_framework.permissions.IsAuthenticated",
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "apps.users.auth0_authentication.Auth0JWTAuthentication",
     ),
 }
 
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'TikalInvestApi',
+    'DESCRIPTION': 'Prueba Tikal Invest',
+    'VERSION': '1.0.0',
+}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+
+CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL', 'redis://127.0.0.1:6379/0')
+CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND', 'redis://127.0.0.1:6379/0')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

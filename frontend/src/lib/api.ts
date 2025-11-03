@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosError } from 'axios';
+import axios, { AxiosInstance } from 'axios';
 
 // ============================================
 // CONFIGURACIÓN DE LA API
@@ -12,37 +12,8 @@ const api: AxiosInstance = axios.create({
     'Content-Type': 'application/json',
   },
   timeout: 10000,
+  withCredentials: true, // 🔹 CRÍTICO: Permite enviar cookies HttpOnly
 });
-
-// ============================================
-// INTERCEPTORES
-// ============================================
-
-api.interceptors.request.use(
-  (config) => {
-    const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
-
-api.interceptors.response.use(
-  (response) => response,
-  (error: AxiosError) => {
-    if (error.response?.status === 401) {
-      if (typeof window !== 'undefined') {
-        localStorage.removeItem('token');
-        window.location.href = '/api/auth/login';
-      }
-    }
-    return Promise.reject(error);
-  }
-);
 
 // ============================================
 // TIPOS DE DATOS
@@ -201,32 +172,31 @@ export interface StockCategory {
 }
 
 // ============================================
-// AUTENTICACIÓN
+// AUTENTICACIÓN CON AUTH0
 // ============================================
 
-export const login = async (credentials: LoginCredentials) => {
+/**
+ * Envía el token de Auth0 al backend Django
+ */
+export const loginWithAuth0 = async (auth0Token: string) => {
   try {
-    const response = await api.post('/auth/login', credentials);
+    const response = await api.post('/users/auth/login/', {
+      auth0_token: auth0Token,
+    });
     return response.data;
   } catch (error) {
-    console.error('Error en login:', error);
+    console.error('Error en login con Auth0:', error);
     throw error;
   }
 };
 
-export const register = async (data: RegisterData) => {
-  try {
-    const response = await api.post('/auth/register', data);
-    return response.data;
-  } catch (error) {
-    console.error('Error en register:', error);
-    throw error;
-  }
-};
-
+/**
+ * Obtiene la información del usuario actual
+ * ⚠️ IMPORTANTE: Sin barra final
+ */
 export const getCurrentUser = async () => {
   try {
-    const response = await api.get('/auth/me');
+    const response = await api.get('/users/auth/me'); // 🔹 SIN barra final
     return response.data;
   } catch (error) {
     console.error('Error al obtener usuario:', error);
@@ -234,41 +204,21 @@ export const getCurrentUser = async () => {
   }
 };
 
+/**
+ * Cierra sesión
+ */
 export const logout = async () => {
   try {
-    const response = await api.post('/auth/logout');
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem('token');
-    }
+    const response = await api.post('/users/auth/logout/');
     return response.data;
   } catch (error) {
-    console.error('Error en logout:', error);
-    throw error;
-  }
-};
-
-export const forgotPassword = async (email: string) => {
-  try {
-    const response = await api.post('/auth/forgot-password', { email });
-    return response.data;
-  } catch (error) {
-    console.error('Error en forgot password:', error);
-    throw error;
-  }
-};
-
-export const resetPassword = async (token: string, password: string) => {
-  try {
-    const response = await api.post('/auth/reset-password', { token, password });
-    return response.data;
-  } catch (error) {
-    console.error('Error en reset password:', error);
+    console.error('Error al cerrar sesión:', error);
     throw error;
   }
 };
 
 // ============================================
-// ACCIONES (STOCKS) - COMPLETO
+// ACCIONES (STOCKS)
 // ============================================
 
 export const getStocks = async (filters?: {
@@ -282,7 +232,7 @@ export const getStocks = async (filters?: {
   max_price?: number;
 }) => {
   try {
-    const response = await api.get('/stocks', { params: filters });
+    const response = await api.get('/stocks/', { params: filters });
     return response.data;
   } catch (error) {
     console.error('Error al obtener acciones:', error);
@@ -292,7 +242,7 @@ export const getStocks = async (filters?: {
 
 export const getStockBySymbol = async (symbol: string) => {
   try {
-    const response = await api.get(`/stocks/${symbol}`);
+    const response = await api.get(`/stocks/${symbol}/`);
     return response.data;
   } catch (error) {
     console.error('Error al obtener acción:', error);
@@ -300,7 +250,6 @@ export const getStockBySymbol = async (symbol: string) => {
   }
 };
 
-// Alias para compatibilidad
 export const getStock = getStockBySymbol;
 
 export const getStockHistory = async (
@@ -310,10 +259,8 @@ export const getStockHistory = async (
 ) => {
   try {
     const params: any = { period };
-    if (days) {
-      params.days = days;
-    }
-    const response = await api.get(`/stocks/${symbolOrId}/history`, { params });
+    if (days) params.days = days;
+    const response = await api.get(`/stocks/${symbolOrId}/history/`, { params });
     return response.data;
   } catch (error) {
     console.error('Error al obtener historial:', error);
@@ -323,41 +270,41 @@ export const getStockHistory = async (
 
 export const getStockCategories = async () => {
   try {
-    const response = await api.get('/stocks/categories');
+    const response = await api.get('/stocks/categories/');
     return response.data;
   } catch (error) {
     console.error('Error al obtener categorías:', error);
-    throw error;
+    return { categories: [], sectors: [] }; // Retornar vacío si falla
   }
 };
 
 export const getGainers = async () => {
   try {
-    const response = await api.get('/stocks/gainers');
+    const response = await api.get('/stocks/gainers/');
     return response.data;
   } catch (error) {
     console.error('Error al obtener ganadoras:', error);
-    throw error;
+    return { gainers: [] };
   }
 };
 
 export const getLosers = async () => {
   try {
-    const response = await api.get('/stocks/losers');
+    const response = await api.get('/stocks/losers/');
     return response.data;
   } catch (error) {
     console.error('Error al obtener perdedoras:', error);
-    throw error;
+    return { losers: [] };
   }
 };
 
 export const getTrendingStocks = async () => {
   try {
-    const response = await api.get('/stocks/trending');
+    const response = await api.get('/stocks/trending/');
     return response.data;
   } catch (error) {
     console.error('Error al obtener tendencias:', error);
-    throw error;
+    return { trending: [] };
   }
 };
 
@@ -367,7 +314,7 @@ export const getTrendingStocks = async () => {
 
 export const getPortfolio = async () => {
   try {
-    const response = await api.get('/portfolio');
+    const response = await api.get('/portfolio/');
     return response.data;
   } catch (error) {
     console.error('Error al obtener portafolio:', error);
@@ -377,17 +324,17 @@ export const getPortfolio = async () => {
 
 export const getPortfolioSummary = async () => {
   try {
-    const response = await api.get('/portfolio/summary');
+    const response = await api.get('/portfolio/summary/');
     return response.data;
   } catch (error) {
-    console.error('Error al obtener resumen portafolio:', error);
+    console.error('Error al obtener resumen:', error);
     throw error;
   }
 };
 
 export const getPortfolioHistory = async (period: string = '1M') => {
   try {
-    const response = await api.get('/portfolio/history', { params: { period } });
+    const response = await api.get('/portfolio/history/', { params: { period } });
     return response.data;
   } catch (error) {
     console.error('Error al obtener historial portafolio:', error);
@@ -399,15 +346,43 @@ export const getPortfolioHistory = async (period: string = '1M') => {
 // TRANSACCIONES
 // ============================================
 
+export const buyStock = async (stockId: string, quantity: number) => {
+  try {
+    const response = await api.post('/transactions/buy/', {
+      stock_id: stockId,
+      quantity,
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error al comprar acción:', error);
+    throw error;
+  }
+};
+
+export const sellStock = async (stockId: string, quantity: number) => {
+  try {
+    const response = await api.post('/transactions/sell/', {
+      stock_id: stockId,
+      quantity,
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error al vender acción:', error);
+    throw error;
+  }
+};
+
 export const getTransactions = async (filters?: {
   type?: string;
-  status?: string;
+  stock_id?: string;
   start_date?: string;
   end_date?: string;
+  page?: number;
+  page_size?: number;
   limit?: number;
 }) => {
   try {
-    const response = await api.get('/transactions', { params: filters });
+    const response = await api.get('/transactions/', { params: filters });
     return response.data;
   } catch (error) {
     console.error('Error al obtener transacciones:', error);
@@ -417,7 +392,7 @@ export const getTransactions = async (filters?: {
 
 export const getTransactionById = async (id: string) => {
   try {
-    const response = await api.get(`/transactions/${id}`);
+    const response = await api.get(`/transactions/${id}/`);
     return response.data;
   } catch (error) {
     console.error('Error al obtener transacción:', error);
@@ -425,41 +400,16 @@ export const getTransactionById = async (id: string) => {
   }
 };
 
-export const buyStock = async (data: {
-  stock_id: string;
-  quantity: number;
-  price?: number;
-}) => {
-  try {
-    const response = await api.post('/transactions/buy', data);
-    return response.data;
-  } catch (error) {
-    console.error('Error al comprar acción:', error);
-    throw error;
-  }
-};
-
-export const sellStock = async (data: {
-  stock_id: string;
-  quantity: number;
-  price?: number;
-}) => {
-  try {
-    const response = await api.post('/transactions/sell', data);
-    return response.data;
-  } catch (error) {
-    console.error('Error al vender acción:', error);
-    throw error;
-  }
-};
-
 // ============================================
-// WALLET / BILLETERA - NUEVAS FUNCIONES
+// BILLETERA (WALLET) - 🔹 CORREGIDO
 // ============================================
 
+/**
+ * Obtiene datos completos de la billetera
+ */
 export const getWallet = async () => {
   try {
-    const response = await api.get('/wallet');
+    const response = await api.get('/wallet/'); // 🔹 CON barra final
     return response.data;
   } catch (error) {
     console.error('Error al obtener billetera:', error);
@@ -467,19 +417,14 @@ export const getWallet = async () => {
   }
 };
 
-export const getWalletTransactions = async (params?: { limit?: number }) => {
-  try {
-    const response = await api.get('/wallet/transactions', { params });
-    return response.data;
-  } catch (error) {
-    console.error('Error al obtener transacciones de billetera:', error);
-    throw error;
-  }
-};
+export const getWalletData = getWallet; // Alias
 
-export const depositFunds = async (amount: number) => {
+export const depositFunds = async (amount: number, method: string = 'bank_transfer') => {
   try {
-    const response = await api.post('/wallet/deposit', { amount });
+    const response = await api.post('/wallet/deposit/', {
+      amount,
+      payment_method: method,
+    });
     return response.data;
   } catch (error) {
     console.error('Error al depositar fondos:', error);
@@ -487,9 +432,12 @@ export const depositFunds = async (amount: number) => {
   }
 };
 
-export const withdrawFunds = async (amount: number) => {
+export const withdrawFunds = async (amount: number, method: string = 'bank_transfer') => {
   try {
-    const response = await api.post('/wallet/withdrawal', { amount });
+    const response = await api.post('/wallet/withdraw/', {
+      amount,
+      withdrawal_method: method,
+    });
     return response.data;
   } catch (error) {
     console.error('Error al retirar fondos:', error);
@@ -497,9 +445,26 @@ export const withdrawFunds = async (amount: number) => {
   }
 };
 
-export const getBalance = async () => {
+export const getWalletTransactions = async (filters?: {
+  type?: string;
+  start_date?: string;
+  end_date?: string;
+  page?: number;
+  page_size?: number;
+  limit?: number; // 🔹 AGREGADO
+}) => {
   try {
-    const response = await api.get('/wallet/balance');
+    const response = await api.get('/wallet/transactions/', { params: filters });
+    return response.data;
+  } catch (error) {
+    console.error('Error al obtener transacciones wallet:', error);
+    return []; // Retornar array vacío si falla
+  }
+};
+
+export const getWalletBalance = async () => {
+  try {
+    const response = await api.get('/wallet/balance/');
     return response.data;
   } catch (error) {
     console.error('Error al obtener balance:', error);
@@ -508,45 +473,51 @@ export const getBalance = async () => {
 };
 
 // ============================================
-// REFERIDOS - NUEVAS FUNCIONES
+// REFERIDOS
 // ============================================
 
 export const getReferrals = async () => {
   try {
-    const response = await api.get('/referrals');
+    const response = await api.get('/referrals/');
     return response.data;
   } catch (error) {
     console.error('Error al obtener referidos:', error);
-    throw error;
+    return [];
   }
 };
 
 export const getReferralStats = async () => {
   try {
-    const response = await api.get('/referrals/stats');
+    const response = await api.get('/referrals/stats/');
     return response.data;
   } catch (error) {
-    console.error('Error al obtener stats de referidos:', error);
+    console.error('Error al obtener estadísticas:', error);
+    return {
+      total_referrals: 0,
+      active_referrals: 0,
+      pending_referrals: 0,
+      total_earnings: 0,
+      pending_earnings: 0
+    };
+  }
+};
+
+export const getReferralCode = async () => {
+  try {
+    const response = await api.get('/referrals/my-code/');
+    return response.data;
+  } catch (error) {
+    console.error('Error al obtener código de referido:', error);
     throw error;
   }
 };
 
 export const validateReferralCode = async (code: string) => {
   try {
-    const response = await api.post('/referrals/validate', { code });
+    const response = await api.post('/referrals/validate/', { code });
     return response.data;
   } catch (error) {
     console.error('Error al validar código de referido:', error);
-    throw error;
-  }
-};
-
-export const getReferralCode = async () => {
-  try {
-    const response = await api.get('/referrals/my-code');
-    return response.data;
-  } catch (error) {
-    console.error('Error al obtener código de referido:', error);
     throw error;
   }
 };
@@ -557,21 +528,21 @@ export const getReferralCode = async () => {
 
 export const getDashboardStats = async () => {
   try {
-    const response = await api.get('/dashboard/stats');
+    const response = await api.get('/dashboard/stats/');
     return response.data;
   } catch (error) {
     console.error('Error al obtener stats dashboard:', error);
-    throw error;
+    return {};
   }
 };
 
 export const getRecentActivity = async () => {
   try {
-    const response = await api.get('/dashboard/recent-activity');
+    const response = await api.get('/dashboard/recent-activity/');
     return response.data;
   } catch (error) {
     console.error('Error al obtener actividad:', error);
-    throw error;
+    return [];
   }
 };
 
@@ -581,7 +552,7 @@ export const getRecentActivity = async () => {
 
 export const updateProfile = async (data: Partial<DjangoUser>) => {
   try {
-    const response = await api.put('/profile', data);
+    const response = await api.patch('/users/auth/me', data); // 🔹 SIN barra
     return response.data;
   } catch (error) {
     console.error('Error al actualizar perfil:', error);
@@ -591,7 +562,7 @@ export const updateProfile = async (data: Partial<DjangoUser>) => {
 
 export const changePassword = async (currentPassword: string, newPassword: string) => {
   try {
-    const response = await api.put('/profile/password', {
+    const response = await api.put('/profile/password/', {
       current_password: currentPassword,
       new_password: newPassword
     });
@@ -607,7 +578,7 @@ export const uploadAvatar = async (file: File) => {
     const formData = new FormData();
     formData.append('avatar', file);
     
-    const response = await api.post('/profile/avatar', formData, {
+    const response = await api.post('/profile/avatar/', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -620,7 +591,7 @@ export const uploadAvatar = async (file: File) => {
 };
 
 // ============================================
-// REPORTES - NUEVO
+// REPORTES
 // ============================================
 
 export const getReports = async (filters?: {
@@ -630,11 +601,11 @@ export const getReports = async (filters?: {
   status?: string;
 }) => {
   try {
-    const response = await api.get('/reports', { params: filters });
+    const response = await api.get('/reports/', { params: filters });
     return response.data;
   } catch (error) {
     console.error('Error al obtener reportes:', error);
-    throw error;
+    return [];
   }
 };
 
@@ -645,7 +616,7 @@ export const requestReport = async (data: {
   format?: string;
 }) => {
   try {
-    const response = await api.post('/reports/request', data);
+    const response = await api.post('/reports/request/', data);
     return response.data;
   } catch (error) {
     console.error('Error al solicitar reporte:', error);
@@ -655,7 +626,7 @@ export const requestReport = async (data: {
 
 export const downloadReport = async (reportId: string) => {
   try {
-    const response = await api.get(`/reports/${reportId}/download`, {
+    const response = await api.get(`/reports/${reportId}/download/`, {
       responseType: 'blob'
     });
     return response.data;
@@ -666,22 +637,22 @@ export const downloadReport = async (reportId: string) => {
 };
 
 // ============================================
-// WATCHLIST - NUEVO
+// WATCHLIST
 // ============================================
 
 export const getWatchlist = async () => {
   try {
-    const response = await api.get('/watchlist');
+    const response = await api.get('/watchlist/');
     return response.data;
   } catch (error) {
     console.error('Error al obtener watchlist:', error);
-    throw error;
+    return [];
   }
 };
 
 export const addToWatchlist = async (stockId: string) => {
   try {
-    const response = await api.post('/watchlist', { stock_id: stockId });
+    const response = await api.post('/watchlist/', { stock_id: stockId });
     return response.data;
   } catch (error) {
     console.error('Error al agregar a watchlist:', error);
@@ -691,7 +662,7 @@ export const addToWatchlist = async (stockId: string) => {
 
 export const removeFromWatchlist = async (stockId: string) => {
   try {
-    const response = await api.delete(`/watchlist/${stockId}`);
+    const response = await api.delete(`/watchlist/${stockId}/`);
     return response.data;
   } catch (error) {
     console.error('Error al eliminar de watchlist:', error);
@@ -701,7 +672,7 @@ export const removeFromWatchlist = async (stockId: string) => {
 
 export const toggleWatchlist = async (stockId: string) => {
   try {
-    const response = await api.post(`/watchlist/toggle/${stockId}`);
+    const response = await api.post(`/watchlist/toggle/${stockId}/`);
     return response.data;
   } catch (error) {
     console.error('Error al toggle watchlist:', error);
@@ -715,7 +686,7 @@ export const toggleWatchlist = async (stockId: string) => {
 
 export const getUsers = async (filters?: Record<string, any>) => {
   try {
-    const response = await api.get('/admin/users', { params: filters });
+    const response = await api.get('/users/users/', { params: filters });
     return response.data;
   } catch (error) {
     console.error('Error al obtener usuarios:', error);
@@ -725,7 +696,7 @@ export const getUsers = async (filters?: Record<string, any>) => {
 
 export const getUserById = async (id: string) => {
   try {
-    const response = await api.get(`/admin/users/${id}`);
+    const response = await api.get(`/users/users/${id}/`);
     return response.data;
   } catch (error) {
     console.error('Error al obtener usuario:', error);
@@ -735,7 +706,7 @@ export const getUserById = async (id: string) => {
 
 export const updateUser = async (id: string, data: Partial<User>) => {
   try {
-    const response = await api.put(`/admin/users/${id}`, data);
+    const response = await api.put(`/users/users/${id}/`, data);
     return response.data;
   } catch (error) {
     console.error('Error al actualizar usuario:', error);
@@ -743,9 +714,9 @@ export const updateUser = async (id: string, data: Partial<User>) => {
   }
 };
 
-export const changeUserStatus = async (id: string, status: string) => {
+export const changeUserStatus = async (id: string, action: 'enable' | 'disable') => {
   try {
-    const response = await api.put(`/admin/users/${id}/status`, { status });
+    const response = await api.post(`/users/users/${id}/${action}/`);
     return response.data;
   } catch (error) {
     console.error('Error al cambiar estado usuario:', error);
@@ -755,7 +726,7 @@ export const changeUserStatus = async (id: string, status: string) => {
 
 export const deleteUser = async (id: string) => {
   try {
-    const response = await api.delete(`/admin/users/${id}`);
+    const response = await api.delete(`/users/users/${id}/`);
     return response.data;
   } catch (error) {
     console.error('Error al eliminar usuario:', error);
@@ -765,7 +736,7 @@ export const deleteUser = async (id: string) => {
 
 export const createStock = async (data: Partial<Stock>) => {
   try {
-    const response = await api.post('/admin/stocks', data);
+    const response = await api.post('/admin/stocks/', data);
     return response.data;
   } catch (error) {
     console.error('Error al crear acción:', error);
@@ -775,7 +746,7 @@ export const createStock = async (data: Partial<Stock>) => {
 
 export const updateStock = async (id: string, data: Partial<Stock>) => {
   try {
-    const response = await api.put(`/admin/stocks/${id}`, data);
+    const response = await api.put(`/admin/stocks/${id}/`, data);
     return response.data;
   } catch (error) {
     console.error('Error al actualizar acción:', error);
@@ -785,7 +756,7 @@ export const updateStock = async (id: string, data: Partial<Stock>) => {
 
 export const toggleStockActive = async (id: string) => {
   try {
-    const response = await api.put(`/admin/stocks/${id}/toggle-active`);
+    const response = await api.put(`/admin/stocks/${id}/toggle-active/`);
     return response.data;
   } catch (error) {
     console.error('Error al toggle acción:', error);
@@ -795,7 +766,7 @@ export const toggleStockActive = async (id: string) => {
 
 export const deleteStock = async (id: string) => {
   try {
-    const response = await api.delete(`/admin/stocks/${id}`);
+    const response = await api.delete(`/admin/stocks/${id}/`);
     return response.data;
   } catch (error) {
     console.error('Error al eliminar acción:', error);
@@ -805,7 +776,7 @@ export const deleteStock = async (id: string) => {
 
 export const updateTransactionStatus = async (id: string, status: string) => {
   try {
-    const response = await api.put(`/admin/transactions/${id}/status`, { status });
+    const response = await api.put(`/admin/transactions/${id}/status/`, { status });
     return response.data;
   } catch (error) {
     console.error('Error al actualizar transacción:', error);
@@ -815,7 +786,7 @@ export const updateTransactionStatus = async (id: string, status: string) => {
 
 export const getAdminDashboardStats = async () => {
   try {
-    const response = await api.get('/admin/reports/dashboard');
+    const response = await api.get('/admin/reports/dashboard/');
     return response.data;
   } catch (error) {
     console.error('Error al obtener stats admin:', error);
@@ -825,7 +796,7 @@ export const getAdminDashboardStats = async () => {
 
 export const generateTransactionReport = async (filters: Record<string, any>) => {
   try {
-    const response = await api.get('/admin/reports/transactions', {
+    const response = await api.get('/admin/reports/transactions/', {
       params: filters,
       responseType: filters.format !== 'json' ? 'blob' : 'json'
     });
@@ -838,7 +809,7 @@ export const generateTransactionReport = async (filters: Record<string, any>) =>
 
 export const generateUserReport = async () => {
   try {
-    const response = await api.get('/admin/reports/users');
+    const response = await api.get('/admin/reports/users/');
     return response.data;
   } catch (error) {
     console.error('Error al generar reporte usuarios:', error);
@@ -846,12 +817,34 @@ export const generateUserReport = async () => {
   }
 };
 
-export const getWalletBalance = async () => {
+// ============================================
+// ADMIN - ENVÍO DE CORREOS
+// ============================================
+
+export const sendEmailToUser = async (userId: string, subject: string, message: string) => {
   try {
-    const response = await api.get('/wallet/balance');
+    const response = await api.post('/admin/send-email/', {
+      user_id: userId,
+      subject,
+      message
+    });
     return response.data;
   } catch (error) {
-    console.error('Error al obtener balance:', error);
+    console.error('Error al enviar correo:', error);
+    throw error;
+  }
+};
+
+export const sendBulkEmail = async (userIds: string[], subject: string, message: string) => {
+  try {
+    const response = await api.post('/admin/send-bulk-email/', {
+      user_ids: userIds,
+      subject,
+      message
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error al enviar correos masivos:', error);
     throw error;
   }
 };

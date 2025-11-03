@@ -154,7 +154,7 @@ export default function ReportsPage() {
           <div className="space-y-3">
             {[
               { name: 'Transacciones - Último mes', date: '2024-10-15', size: '245 KB' },
-              { name: 'Portafolio - Q3 2024', date: '2024-09-30', size: '189 KB' },
+              { name: 'Portafolio - $3 2024', date: '2024-09-30', size: '189 KB' },
               { name: 'Rendimiento - Último año', date: '2024-08-15', size: '312 KB' },
             ].map((report, index) => (
               <div

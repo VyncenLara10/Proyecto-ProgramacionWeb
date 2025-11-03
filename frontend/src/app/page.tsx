@@ -8,7 +8,7 @@ import { motion } from 'framer-motion';
 export default function LandingPage() {
   const [stats, setStats] = useState({
     users: '10,000+',
-    transactions: 'Q50M+',
+    transactions: '$6M+',
     countries: '25+',
   });
 
@@ -126,7 +126,7 @@ export default function LandingPage() {
               {
                 icon: Users,
                 title: 'Programa de Referidos',
-                description: 'Gana Q.5 por cada amigo que se registre con tu código',
+                description: 'Gana $50 por cada amigo que se registre con tu código',
               },
             ].map((feature, index) => (
               <motion.div
