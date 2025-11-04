@@ -4,10 +4,6 @@ from django.conf import settings
 from rest_framework import authentication, exceptions
 
 class Auth0JWTAuthentication(authentication.BaseAuthentication):
-    """
-    Valida el token de Auth0 almacenado en la cookie 'access_token'.
-    """
-
     def authenticate(self, request):
         token = request.COOKIES.get("access_token")
         if not token:

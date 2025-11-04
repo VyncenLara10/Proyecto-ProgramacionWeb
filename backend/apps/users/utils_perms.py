@@ -1,4 +1,3 @@
-# users/utils_perms.py
 from rest_framework.exceptions import PermissionDenied
 
 def assert_owner_or_admin(request, obj):

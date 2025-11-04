@@ -33,10 +33,6 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-]
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -48,7 +44,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "rest_framework",
     "corsheaders",
-    "drf_yasg",
     "drf_spectacular",
     "apps.users",
     "apps.stocks",
@@ -145,8 +140,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
-CORS_ALLOW_CREDENTIALS = True
 
 AUTH0_DOMAIN = os.environ.get("AUTH0_DOMAIN")
 API_IDENTIFIER = os.environ.get("API_IDENTIFIER")
