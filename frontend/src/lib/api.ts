@@ -1,9 +1,5 @@
 import axios, { AxiosInstance, AxiosError } from 'axios';
-import { getAccessToken } from '@auth0/nextjs-auth0';
-
-// ============================================
-// CONFIGURACIÓN DE LA API
-// ============================================
+import { useUser, getAccessToken } from '@auth0/nextjs-auth0';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
 
@@ -22,7 +18,6 @@ const api: AxiosInstance = axios.create({
 api.interceptors.request.use(
   async (config) => {
     try {
-      // 🔹 Obtiene el access token desde Auth0
       const accessToken = await getAccessToken();
       if (accessToken) {
         config.headers.Authorization = `Bearer ${accessToken}`;
@@ -198,6 +193,7 @@ export interface StockCategory {
 export const getCurrentUser = async () => {
   try {
     const response = await api.get('/users/auth/me');
+    console.log(response);
     return response.data;
   } catch (error) {
     console.error('Error al obtener usuario:', error);

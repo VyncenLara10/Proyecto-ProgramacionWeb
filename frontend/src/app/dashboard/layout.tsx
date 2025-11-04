@@ -36,12 +36,12 @@ export default function DashboardLayout({
   useEffect(() => {
     if (error) {
       console.error('Auth error:', error);
-      router.push('/api/auth/login');
+      router.push('/auth/login');
       return;
     }
 
     if (!isLoading && !user) {
-      router.push('/api/auth/login');
+      router.push('/auth/login');
       return;
     }
     
