@@ -10,7 +10,6 @@ from django.conf import settings
 
 from apps.users.utils import assign_unique_referral_code
 
-# no-repudio
 from apps.users.utils import log_action
 from apps.users.actions import Action
 
@@ -37,12 +36,6 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ["id", "username", "email", "profile"]
 
 class Auth0UserLoginSerializer(serializers.Serializer):
-    """
-    Verifica el token de Auth0 (mediante /userinfo).
-    Si el usuario no existe -> lo crea con perfil pendiente.
-    Si existe -> valida que el perfil esté habilitado.
-    """
-
     auth0_token = serializers.CharField()
 
     def validate(self, attrs):
