@@ -147,7 +147,13 @@ export default function DashboardPage() {
     }
   };
 
-
+  const shareReferralLink = () => {
+    if (djangoUser?.referral_code) {
+      const referralLink = `${window.location.origin}/auth/register?ref=${djangoUser.referral_code}`;
+      navigator.clipboard.writeText(referralLink);
+      toast.success('Link de referido copiado');
+    }
+  };
 
   if (isLoading || loadingData) {
     return (
