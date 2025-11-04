@@ -93,6 +93,9 @@ export default function DashboardPage() {
   const loadDashboardData = async () => {
     setLoadingData(true);
     try {
+      // Cargar datos del usuario Django
+      const userData = await getCurrentUser();
+      setDjangoUser(userData.user || userData);
 
       // Cargar portafolio y referidos en paralelo
       const [portfolioResponse, referralsResponse] = await Promise.all([
