@@ -178,7 +178,7 @@ export default function DashboardPage() {
       {/* Header */}
       <div>
         <h1 className="text-3xl font-bold text-white mb-2">
-          Bienvenido, {userName}
+          Bienvenid@, {userName}
         </h1>
         <p className="text-gray-400">Dashboard de Trading - Tikal Invest</p>
         
