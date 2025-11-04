@@ -20,7 +20,6 @@ function TradeForm() {
   const [limitPrice, setLimitPrice] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Mock stock data
   const stockPrice = 150.25;
   const totalCost = parseFloat(shares) * stockPrice;
   const commission = totalCost * 0.01; // 1% commission
@@ -31,14 +30,6 @@ function TradeForm() {
     setIsSubmitting(true);
 
     try {
-      // CONECTA CON: POST /api/trades
-      // await api.post('/trades', {
-      //   stock_symbol: stockSymbol,
-      //   type: tradeType,
-      //   order_type: orderType,
-      //   shares: parseFloat(shares),
-      //   limit_price: orderType === 'limit' ? parseFloat(limitPrice) : null
-      // });
 
       console.log('Trade submitted:', { stockSymbol, tradeType, orderType, shares, limitPrice });
       

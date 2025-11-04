@@ -238,17 +238,7 @@ export default function MarketPage() {
                         <Eye className="w-3 h-3 mr-1" />
                         Ver
                       </Button>
-                      <Button 
-                        size="sm" 
-                        className="text-xs bg-gradient-to-r from-cyan-500 to-blue-500"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          window.location.href = `dashboard/trade?stock=${stock.id}&type=buy`;
-                        }}
-                      >
-                        Comprar
-                      </Button>
+
                     </div>
                   </div>
                 </CardContent>

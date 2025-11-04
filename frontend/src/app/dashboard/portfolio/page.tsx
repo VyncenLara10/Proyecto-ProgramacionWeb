@@ -197,67 +197,6 @@ export default function PortfolioPage() {
             </CardContent>
           </Card>
 
-          {/* Positions Table */}
-          <Card className="lg:col-span-2">
-            <CardHeader>
-              <CardTitle>Posiciones</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead>
-                    <tr className="text-left text-sm text-gray-400 border-b border-gray-700">
-                      <th className="pb-3">Acción</th>
-                      <th className="pb-3 text-right">Cantidad</th>
-                      <th className="pb-3 text-right">Precio Prom.</th>
-                      <th className="pb-3 text-right">Precio Actual</th>
-                      <th className="pb-3 text-right">Valor</th>
-                      <th className="pb-3 text-right">Ganancia/Pérdida</th>
-                      <th className="pb-3 text-right">Acciones</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {portfolio.map((position) => (
-                      <tr key={position.id} className="border-b border-gray-700/50 hover:bg-gray-700/20">
-                        <td className="py-4">
-                          <Link href={`/dashboard/market/${position.stock.symbol}`} className="hover:text-primary-500">
-                            <div className="font-semibold text-white">{position.stock.symbol}</div>
-                            <div className="text-sm text-gray-400">{position.stock.name}</div>
-                          </Link>
-                        </td>
-                        <td className="py-4 text-right text-white">{position.quantity}</td>
-                        <td className="py-4 text-right text-white">
-                          {formatCurrency(position.average_buy_price)}
-                        </td>
-                        <td className="py-4 text-right text-white">
-                          {formatCurrency(position.stock.current_price)}
-                        </td>
-                        <td className="py-4 text-right text-white font-semibold">
-                          {formatCurrency(position.current_value)}
-                        </td>
-                        <td className="py-4 text-right">
-                          <div className={`font-semibold ${getChangeColor(position.profit_loss)}`}>
-                            {position.profit_loss >= 0 ? '+' : ''}{formatCurrency(position.profit_loss)}
-                          </div>
-                          <div className={`text-sm ${getChangeColor(position.profit_loss_percentage)}`}>
-                            {position.profit_loss_percentage >= 0 ? '+' : ''}
-                            {position.profit_loss_percentage?.toFixed(2)}%
-                          </div>
-                        </td>
-                        <td className="py-4 text-right">
-                          <Link href={`/dashboard/trade?stock=${position.stock.id}&type=sell`}>
-                            <Button size="sm" variant="outline">
-                              Vender
-                            </Button>
-                          </Link>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </CardContent>
-          </Card>
         </div>
       )}
     </div>

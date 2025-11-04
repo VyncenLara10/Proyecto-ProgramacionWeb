@@ -18,10 +18,7 @@ export default function ContactPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // TODO: CONECTAR CON BACKEND - POST /api/contact
-    // await api.post('/contact', formData);
-    
+  
     setTimeout(() => {
       alert('Mensaje enviado correctamente');
       setFormData({ name: '', email: '', subject: '', message: '' });
