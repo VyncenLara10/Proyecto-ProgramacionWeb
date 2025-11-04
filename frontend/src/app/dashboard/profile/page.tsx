@@ -332,7 +332,7 @@ export default function ProfilePage() {
                 className="border-red-500/50 text-red-400 hover:bg-red-500/20"
                 disabled
               >
-                Eliminar Cuenta
+                Eliminar
               </Button>
             </div>
           </div>
