@@ -93,9 +93,6 @@ export default function DashboardPage() {
   const loadDashboardData = async () => {
     setLoadingData(true);
     try {
-      // Cargar datos del usuario Django
-      const userData = await getCurrentUser();
-      setDjangoUser(userData.user || userData);
 
       // Cargar portafolio y referidos en paralelo
       const [portfolioResponse, referralsResponse] = await Promise.all([
@@ -155,16 +152,6 @@ export default function DashboardPage() {
     }
   };
 
-  if (isLoading || loadingData) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <div className="w-12 h-12 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-white">Cargando dashboard...</p>
-        </div>
-      </div>
-    );
-  }
 
   if (!auth0User) {
     return null;
